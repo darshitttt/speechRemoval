@@ -79,17 +79,18 @@ def get_random_audio_sec(audio_filename):
 
     # Getting a random audio and bg second
     wav_duration = (int)(wav.shape[0]/SAMPLE_RATE)
-    sec_choice = random.choice([i for i in range(0, wav_duration-1)])
-    rand_audio_sec = wav[sec_choice*SAMPLE_RATE:(sec_choice+1)*SAMPLE_RATE]
+    sec_choice = random.choice([i for i in range(0, wav_duration-2)])
+    rand_audio_sec = wav[sec_choice*SAMPLE_RATE:(sec_choice+2)*SAMPLE_RATE]
     bg_duration = (int)(bg_wav.shape[0]/SAMPLE_RATE)
-    temp = [i for i in range(0, bg_duration-1)]
+    temp = [i for i in range(0, bg_duration-2)]
     bg_random_sec = random.choice(temp)
-    bg_random_wav = bg_wav[bg_random_sec*SAMPLE_RATE:((bg_random_sec+1)*SAMPLE_RATE)]
+    bg_random_wav = bg_wav[bg_random_sec*SAMPLE_RATE:((bg_random_sec+2)*SAMPLE_RATE)]
     
     # Adding echo and bg noise to the audio
-    echo_audio = add_echo_from_file(rir_file, rand_audio_sec)
+    #echo_audio = add_echo_from_file(rir_file, rand_audio_sec)
     #print(echo_audio.shape, bg_wav.shape)
-    noisy_audio, noise = add_noise(echo_audio, bg_random_wav)
+    #noisy_audio, noise = add_noise(echo_audio, bg_random_wav)
+    noisy_audio, noise = add_noise(rand_audio_sec, bg_random_wav)
 
     noisy_audio = torch.from_numpy(noisy_audio).unsqueeze(0)
     noise = torch.from_numpy(noise).unsqueeze(0)
