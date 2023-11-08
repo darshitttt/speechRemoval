@@ -11,7 +11,7 @@ class sampleSpecAE(nn.Module):
     def __init__(self):
         super(sampleSpecAE, self).__init__()
 
-        self.encoder = nn.Sequential(
+        self.enc = nn.Sequential(
             nn.Conv2d(1, 512, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.Conv2d(512, 256, kernel_size=3, stride=2,padding=1),
@@ -26,7 +26,7 @@ class sampleSpecAE(nn.Module):
             nn.LeakyReLU()
             )
         
-        self.decoder = nn.Sequential(
+        self.dec = nn.Sequential(
             nn.ConvTranspose2d(16, 32, kernel_size=(2,3), stride=(2), padding=1, output_padding=1),
             nn.LeakyReLU(),
             nn.ConvTranspose2d(32, 64, kernel_size=(2,2), stride=(2), padding=1, output_padding=1),
@@ -42,8 +42,8 @@ class sampleSpecAE(nn.Module):
         )
 
         def forward(self, x):
-            x = self.encoder(x)
-            x = self.decoder(x)
+            x = self.enc(x)
+            x = self.dec(x)
 
             return x
         

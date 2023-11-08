@@ -92,6 +92,9 @@ def get_random_audio_sec(audio_filename):
     #noisy_audio, noise = add_noise(echo_audio, bg_random_wav)
     noisy_audio, noise = add_noise(rand_audio_sec, bg_random_wav)
 
+    noisy_audio /= np.max(np.abs(noisy_audio), axis=0)
+    noise /= np.max(np.abs(noise), axis=0)
+
     noisy_audio = torch.from_numpy(noisy_audio).unsqueeze(0)
     noise = torch.from_numpy(noise).unsqueeze(0)
 
